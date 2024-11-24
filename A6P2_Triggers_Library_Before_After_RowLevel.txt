@@ -1,0 +1,63 @@
+-- ----------------------------Execute This First-------------------------------
+
+-- CREATE TABLE Lib(
+-- 	cust_name VARCHAR(50),
+--     status VARCHAR(5),
+--     days INT,
+--     cost INT
+-- );
+
+-- CREATE TABLE Lib_Aud(
+-- 	cust_name VARCHAR(50),
+--     status VARCHAR(5),
+--     days INT,
+--     cost INT
+-- );
+
+-- ALTER TABLE Lib_Aud ADD reason VARCHAR(10);
+
+-- INSERT INTO Lib VALUES
+-- ("A", "I", 13, NULL),
+-- ("B", "I", 23, NULL),
+-- ("C", "I", 33, NULL),
+-- ("D", "I", 10, NULL),
+-- ("E", "I", 20, NULL),
+-- ("F", "I", 3, NULL),
+-- ("G", "I", "25", NULL);
+
+-- UPDATE Lib SET cost = days * 5 WHERE cost IS NULL;
+
+
+-- ----------------------------Execute This Second-------------------------------
+
+
+CREATE TRIGGER before_update_1
+BEFORE UPDATE ON lib
+FOR EACH ROW
+INSERT INTO Lib_Aud VALUES(OLD.cust_name, OLD.status, OLD.days, OLD.cost, "Update");
+
+CREATE TRIGGER before_update_2
+BEFORE UPDATE ON Lib
+FOR EACH ROW
+SET NEW.cost = (NEW.days * 5);
+
+CREATE TRIGGER after_delete_1
+AFTER DELETE ON Lib
+FOR EACH ROW
+INSERT INTO Lib_Aud VALUES(OLD.cust_name, OLD.status, OLD.days, OLD.cost, "Delete");
+
+UPDATE Lib SET days = 15 WHERE cust_name = "A";
+UPDATE Lib SET days = 40 WHERE cust_name = "C";
+UPDATE Lib SET days = 5 WHERE cust_name = "F";
+UPDATE Lib SET status = 'R' WHERE cust_name = "B";
+DELETE FROM Lib WHERE status = 'R';
+
+SELECT * FROM Lib;
+SELECT * FROM Lib_Aud;
+
+DELETE FROM Lib;
+DELETE FROM Lib_Aud;
+
+DROP TRIGGER before_update_1;
+DROP TRIGGER before_update_2;
+DROP TRIGGER after_delete_1;

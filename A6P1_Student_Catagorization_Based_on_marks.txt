@@ -1,0 +1,55 @@
+-- ----------------------------Execute This First-------------------------------
+
+-- CREATE TABLE std_marks(
+-- 	name VARCHAR(50),
+--     marks INT
+-- );
+
+-- CREATE TABLE std_marks(
+-- 	name VARCHAR(50),
+--     marks INT,
+--     Catagory VARCHAR(20)
+-- );
+
+-- INSERT INTO std_marks VALUES
+-- ("A", 1400),
+-- ("B", 1000),
+-- ("C", 880),
+-- ("D", 820),
+-- ("E", 100),
+-- ("F", 1500);
+
+-- ----------------------------Execute This Second-------------------------------
+
+-- // Go to the left side's Navigator and see "Stored Procedure" right click and Create new procedure. Paste code there.
+
+CREATE PROCEDURE `proc_Grade`(IN inp_name VARCHAR(50))
+BEGIN
+	
+    DECLARE inp_marks INT;
+    SELECT marks INTO inp_marks FROM std_marks WHERE name = inp_name;
+    
+    IF inp_marks >= 990 AND inp_marks <= 1500 THEN
+        INSERT INTO std_catagorization VALUES (inp_name, inp_marks, "Distinction");
+    
+    ELSEIF inp_marks >= 900 AND inp_marks < 990 THEN
+        INSERT INTO std_catagorization VALUES (inp_name, inp_marks, "First Class");
+    
+    ELSEIF inp_marks >= 825 AND inp_marks < 900 THEN
+        INSERT INTO std_catagorization VALUES (inp_name, inp_marks, "Higher Second");
+    
+    ELSE
+        INSERT INTO std_catagorization VALUES (inp_name, inp_marks, "Fail");
+    END IF;
+END
+
+-- ----------------------------Execute This Second-------------------------------
+
+CALL proc_Grade("A");
+CALL proc_Grade("B");
+CALL proc_Grade("C");
+CALL proc_Grade("D");
+CALL proc_Grade("E");
+
+SELECT * FROM std_catagorization;
+DELETE FROM std_catagorization;

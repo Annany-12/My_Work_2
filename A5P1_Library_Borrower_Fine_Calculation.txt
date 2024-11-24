@@ -1,0 +1,88 @@
+-- ----------------------------Execute This First-------------------------------
+
+-- CREATE DATABASE practice;
+-- USE practice;
+
+-- CREATE TABLE Borrower (
+-- 	Roll_no INT NOT NULL,
+--     Name VARCHAR(50),
+--     Date_issue DATE,
+--     Book_Name VARCHAR(50),
+--     Status CHAR(1) -- I = Issued, R = Returned
+-- );
+
+-- CREATE TABLE Fine(
+-- 	Roll_No INT NOT NULL,
+--     Date DATE,
+--     Amt DECIMAL(10, 2)
+-- );
+
+-- INSERT INTO Borrower VALUES
+-- (101, 'A', '2024-11-01', 'Book_1', 'I'),
+-- (102, 'B', '2024-10-03', 'Book_2', 'I'),
+-- (103, 'C', '2024-09-05', 'Book_3', 'I'),
+-- (104, 'D', '2024-10-07', 'Book_4', 'I'),
+-- (105, 'E', '2024-02-09', 'Book_5', 'I'),
+-- (106, 'F', '2024-10-11', 'Book_6', 'I'),
+-- (107, 'G', '2023-11-10', 'Book_7', 'I');
+
+-- SELECT * FROM Borrower;
+-- SELECT * FROM Fine;
+
+-- ----------------------------Execute This Second-------------------------------
+
+DELIMITER //
+
+CREATE PROCEDURE call_fine(IN Roll INT, IN Book_name VARCHAR(50))
+BEGIN
+	DECLARE num_of_days INT;
+    DECLARE issue_date DATE;
+    DECLARE fine INT DEFAULT 0;
+    
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+         SELECT "An unexpected database exception occured" AS message;
+		END;
+	
+     DECLARE EXIT HANDLER FOR NOT FOUND
+		BEGIN
+         -- SELECT "NO MATCHING record found in borrower" AS message;
+         SELECT CONCAT("NO MATCHING record found in borrower for Roll ", Roll) AS message;
+		END;
+    
+    SELECT Date_issue INTO issue_date 
+    FROM Borrower 
+    WHERE Roll_no = Roll AND Book_Name = Book_name;
+    
+    
+    SET num_of_days := DATEDIFF(CURDATE(), issue_date);
+    
+    IF num_of_days > 15 THEN
+		IF num_of_days > 30 THEN
+			SET fine := (15 * 5) + ((num_of_days - 30) * 50);
+		ELSE
+			SET fine := (num_of_days - 15) * 5;
+		END IF;
+	ELSE
+		SET fine := 0;
+	END IF;
+    
+    UPDATE Borrower SET Status = 'R' WHERE Roll_no = Roll AND Book_Name = Book_name;
+    
+    IF fine >= 0 THEN
+		INSERT INTO Fine(Roll_No, Date, Amt) VALUES (roll, issue_date, fine);
+	END IF;
+END //
+
+DELIMITER ;
+
+CALL call_fine(101, 'Book_1');
+CALL call_fine(102, 'Book_2');
+CALL call_fine(107, 'Book_7');
+CALL call_fine(103, 'Book_3');
+CALL call_fine(110, 'Book_3');
+
+SELECT * FROM Fine;
+SELECT * FROM Borrower;
+DELETE FROM Fine;
+DROP PROCEDURE call_fine;
