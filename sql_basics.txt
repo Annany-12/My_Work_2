@@ -1,0 +1,68 @@
+---------------------
+--Creating Database--
+---------------------
+
+CREATE DATABSE myDB;
+USE myDB;
+
+---------------------------------------
+--Inside the Database, Creating Table--
+---------------------------------------
+
+CREATE TABLE employees (
+	emp_ID INT,
+	f_name VARCHAR(50),
+	l_name VARCHAR(50),
+	hourly_pay DECIMAL(5, 2),
+	hire_date DATE
+);
+SELECT * FROM employees;
+RENAME TABLE employees to Worker;
+DROP TABLE employees;
+ALTER TABLE employees ADD phone_number VARCHAR(11);
+ALTER TABLE employees RENAME COLUMN phone_number TO email;
+ALTER TABLE employees MODIFY COLUMN email VARCHAR(100);
+ALTER TABLE employees DROP COLUMN email;
+
+--------------------------------
+--Inside Table, Inserting Rows--
+--------------------------------
+
+INSERT INTO employees(emp_id, f_name, l_name, hourly_pay, hire_date)
+VALUES
+	(1, "Arthur", "Morgan", 25.50, "2023-02-25"),
+	(2, "John", "Marston", 25.50, "2023-02-25"),
+	(3, "Sadie", "Adler", 25.50, "2023-02-25"),
+	(4, "Jack", "Marston", 25.50, "2023-02-25");
+
+---------------------------------------------
+--Inside Table, Selecting data, using WHERE--
+---------------------------------------------
+
+SELECT * FROM employees WHERE emp_id = 1;
+SELECT * FROM employees WHERE emp_id > 1;
+SELECT * FROM employees WHERE emp_id < 3;
+SELECT * FROM employees WHERE l_name = "Marston";
+SELECT * FROM employees WHERE hire_date IS NULL;
+SELECT * FROM employees WHERE hire_date IS NOT NULL;
+
+-----------------------------------
+--Inside Table, UPDATE and DELETE--
+-----------------------------------
+
+UPDATE employees SET hourly_pay = 1.00 WHERE f_name = "Micah";
+UPDATE employees SET hourly_pay = 1.00, hire_date = "2024-03-26" WHERE f_name = "Micah";
+DELETE FROM employees WHERE emp_id = 5;
+
+------------------------------------------------------------
+--Creating, Altering Table With UNIQUE/NOT NULL constraint--
+------------------------------------------------------------
+
+CREATE TABLE tab_name(
+	id INT UNIQUE,
+	product_name VARCHAR(50) NOT NULL,
+	random VARCHAR(20)
+);
+
+ALTER TABLE tab_name ADD CONSTRAINT UNIQUE(id);
+ALTER TABLE tab_name MODIFY product_name VARCHAR(50) NOT NULL;

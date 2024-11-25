@@ -1,0 +1,53 @@
+Mongo DB:
+---------------------
+--Creating Database--
+---------------------
+
+show dbs <- Used to show databases;
+use database_name
+use db_name <- if this "db_name" doesn't exist it, will be created and we will be inside the database.
+db.createCollection("Students") <- This is like creating a table inside the database.
+db.dropDatabase()
+
+--------------------------------
+--Inserting Values (Documents)--
+--------------------------------
+
+db.collection_name.insertOne({key1: value1, key2:value2, key3:value3, ....}); This will insert the values in the corresponding keys.
+db.find() <- Show all the values in the collection.
+db.collection_name.insertMany([
+	{key1: value1, key2:value2, key3:value3, ....},
+	{key1: value1, key2:value2, ....},
+	{key1: value1, key2:value2, key3:value3, key4:value4....}
+])
+
+----------------------------------
+--Find (Showing specific Values)--
+----------------------------------
+
+db.collection_name.find({query_parameter}, {projection_parameter})
+db.collection_name.find({name:"ABC"}) <- Return all the students with name "ABC".
+db.collection_name.find({name:"ABC", age:19}) <- Reutrn all values with name = "ABC" and age = 19
+db.collection_name.find({},{name:true}) <- This will return every document, but only the name.
+db.collection_name.find({gpa:9},{name:true, age:true}) <- This will return documents whose gpa is 9, but only the name and age will be returned.
+
+--------------------
+--Update Documents--
+--------------------
+
+db.collection_name.updateOne({name:"ABC"}, {$set:{gpa:8.5}}) <- It will set/update gpa = 8.5 for all students with name = ABC.
+db.collection_name.updateOne({name:"ABC"}, {$unset:{gpa:""}}) <- This will remove the field for the gpa for name ABC.
+db.collection_name.updateOne({}, {$unset:{gpa:""}}) <- This will remove the field for the gpa for all.
+
+--------------------
+--Delete Documents--
+--------------------
+
+db.collection_name.deleteOne({name:"ABC"}) <- Delete tuple with name = ABC.
+
+-----------
+--Indexes--
+-----------
+
+db.collection_name.createIndex({name: 1}) <- we make index for name column starting from A to Z.
+db.collection_name.getIndexes()
