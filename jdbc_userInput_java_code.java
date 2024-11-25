@@ -1,4 +1,18 @@
-// CMD: java -cp "C:\Users\__user__\Desktop\j_pra\mysql-connector-j-8.3.0\mysql-connector-j-8.3.0.jar" a.java
+// MySQL:
+// CREATE DATABASE database_name;
+// GRANT ALL PRIVILEGES ON database_name.* TO 'root'@'localhost';
+// FLUSH PRIVILEGES;
+
+// --------------
+
+// Java:
+// private static final String URL = "jdbc:mysql://localhost:3306/database_name";
+
+// --------------
+
+// CMD:
+// javac -cp "C:\Users\annan\Desktop\jdbc_ass\mysql-connector-j-8.3.0\mysql-connector-java-8.3.0.jar" assignment_name.java
+// java -cp ".;C:\Users\annan\Desktop\jdbc_ass\mysql-connector-j-8.3.0\mysql-connector-j-8.3.0.jar" assignment_name
 
 import java.sql.*;
 import java.util.Scanner;
