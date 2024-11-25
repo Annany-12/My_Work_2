@@ -11,8 +11,8 @@
 // --------------
 
 // CMD:
-// javac -cp "C:\Users\annan\Desktop\jdbc_ass\mysql-connector-j-8.3.0\mysql-connector-java-8.3.0.jar" assignment_name.java
-// java -cp ".;C:\Users\annan\Desktop\jdbc_ass\mysql-connector-j-8.3.0\mysql-connector-j-8.3.0.jar" assignment_name
+// javac -cp "C:\Users\_user_\Desktop\jdbc_ass\mysql-connector-j-8.3.0\mysql-connector-java-8.3.0.jar" assignment_name.java
+// java -cp ".;C:\Users\_user_\Desktop\jdbc_ass\mysql-connector-j-8.3.0\mysql-connector-j-8.3.0.jar" assignment_name
 
 import java.sql.*;
 import java.util.Scanner;
