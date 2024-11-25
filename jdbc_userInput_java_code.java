@@ -8,7 +8,7 @@ public class a {
     // Database credentials (replace with your own)
     private static final String DB_URL = "jdbc:mysql://localhost:3306/jdbc_db";
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "Annany@12";
+    private static final String DB_PASSWORD = "mysql_password";
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
