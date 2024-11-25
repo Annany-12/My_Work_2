@@ -1,0 +1,62 @@
+-- CREATE DATABASE practice;
+-- Use practice;
+-- CREATE TABLE N_RollCall (
+--     RollNo INT PRIMARY KEY,
+--     Name VARCHAR(50),
+--     Class VARCHAR(10)
+-- );
+
+-- CREATE TABLE O_RollCall (
+--     RollNo INT PRIMARY KEY,
+--     Name VARCHAR(50),
+--     Class VARCHAR(10)
+-- );
+
+-- INSERT INTO N_RollCall VALUES (101, 'Alice', '10A');
+-- INSERT INTO N_RollCall VALUES (102, 'Bob', '10B');
+-- INSERT INTO N_RollCall VALUES (103, 'Charlie', '10A');
+
+-- INSERT INTO O_RollCall VALUES (101, 'Alice', '10A');
+
+-- SELECT * FROM N_RollCall;
+-- SELECT * FROM O_RollCall;
+
+DELIMITER //
+
+CREATE PROCEDURE com_RollCall()
+BEGIN
+    DECLARE v_roll_no INT;
+    DECLARE v_name VARCHAR(50);
+    DECLARE v_class VARCHAR(10);
+    DECLARE done INT DEFAULT FALSE;
+
+    DECLARE rollcall_cursor CURSOR FOR 
+        SELECT RollNo, Name, Class FROM N_RollCall;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN rollcall_cursor;
+
+    read_loop: LOOP
+        FETCH rollcall_cursor INTO v_roll_no, v_name, v_class;
+
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+
+        IF NOT EXISTS (
+            SELECT 1 FROM O_RollCall WHERE RollNo = v_roll_no
+        ) THEN
+            INSERT INTO O_RollCall (RollNo, Name, Class)
+            VALUES (v_roll_no, v_name, v_class);
+        END IF;
+    END LOOP;
+
+    CLOSE rollcall_cursor;
+END//
+
+DELIMITER ;
+
+CALL com_RollCall();
+
+SELECT * FROM O_RollCall;
