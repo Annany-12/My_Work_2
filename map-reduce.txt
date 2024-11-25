@@ -1,0 +1,28 @@
+use db_name
+db.createCollection("col_name")
+
+db.col_name.insertMany([
+  {comp: "Apple", qt: 10},
+  {comp: "Samsung", qt: 20},
+  {comp: "Sony", qt: 30},
+  {comp: "Nvidia", qt: 10},
+  {comp: "Apple", qt: 15},
+  {comp: "Nvidia", qt: 5},
+  {comp: "Samsung", qt: 25}
+])
+
+function mapFunc(){
+	emit(this.comp, this.qt);
+}
+
+function reduceFunc(key, values){
+	return Array.sum(values);
+}
+
+db.col_name.mapReduce(
+	mapFunc,
+	ReduceFunc,
+	{out:"total_qt"}
+)
+
+db.total_qt.find()

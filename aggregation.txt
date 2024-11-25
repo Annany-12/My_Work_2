@@ -1,0 +1,38 @@
+db.sales.insertMany([
+    { product: "Laptop", brand: "Apple", quantity: 10, price: 1200 },
+    { product: "Laptop", brand: "Dell", quantity: 20, price: 800 },
+    { product: "Phone", brand: "Samsung", quantity: 30, price: 700 },
+    { product: "Phone", brand: "Apple", quantity: 15, price: 1000 },
+    { product: "Tablet", brand: "Microsoft", quantity: 5, price: 1500 },
+    { product: "Tablet", brand: "Apple", quantity: 7, price: 2000 },
+    { product: "Laptop", brand: "HP", quantity: 10, price: 900 }
+]);
+
+db.sales.aggregate([
+    {
+        $group: {
+            _id: "$product", // Group by product type
+            totalRevenue: { $sum: { $multiply: ["$quantity", "$price"] } } 
+        }
+    },
+    {
+        $sort: { totalRevenue: -1 }
+    },
+		{$out:"tot_rev"}
+]);
+
+db.sales.aggregate([
+    {
+        $group: {
+            _id: "$brand", // Group by brand
+            averagePrice: { $avg: "$price" } 
+        }
+    },
+    {
+        $sort: { averagePrice: -1 }
+    },
+	{$out:"avg_rev"}
+]);
+
+db.tot_rev.find()
+db.avg_rev.find()
