@@ -1,0 +1,48 @@
+-- CREATE TABLE cust(
+-- 	id INT PRIMARY KEY,
+--     f_name VARCHAR(50),
+--     l_name VARCHAR(50),
+--     add_id INT
+-- );
+
+-- CREATE TABLE pay(
+-- 	id INT PRIMARY KEY,
+-- 	amount INT
+-- );
+
+-- INSERT INTO cust VALUES
+-- 	(1, "f_A", "l_A", 11),
+--     (2, "f_B", "l_B", 22),
+--     (3, "f_C", "l_C", 33),
+--     (4, "f_D", "l_D", 44),
+--     (5, "f_E", "l_E", 55),
+--     (6, "f_F", "l_F", 66);
+
+-- INSERT INTO pay VALUES
+-- 	(1, 11),
+--     (2, 22),
+--     (4, 44),
+--     (6, 66),
+-- 	(8, 88);
+
+
+----------------------------------------------------
+
+-- SELECT * FROM cust AS c
+-- INNER JOIN pay AS p
+-- ON c.id = p.id;
+
+-- SELECT * FROM cust AS c
+-- LEFT JOIN pay AS p
+-- ON c.id = p.id
+
+-- SELECT * FROM cust AS c
+-- RIGHT JOIN pay AS p
+-- ON c.id = p.id
+
+-- SELECT * FROM cust AS c
+-- FULL OUTER JOIN pay AS p
+-- ON c.id = p.id
+
+-- SELECT * FROM cust;
+-- SELECT * FROM pay;
