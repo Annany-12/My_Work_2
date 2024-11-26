@@ -1,0 +1,20 @@
+use sampleDB 
+
+db.createCollection("users") 
+
+db.users.insertMany([
+  { name: "Alice", age: 25, city: "New York" },
+  { name: "Bob", age: 30, city: "Los Angeles" },
+  { name: "Charlie", age: 35, city: "Chicago" },
+  { name: "Alice", age: 28, city: "San Francisco" }
+])
+
+
+db.users.find({ name: "Alice" })
+
+db.users.createIndex({ name: 1 }) // 1 = Ascending order
+
+
+db.users.find({ name: "Alice" }).explain("executionStats")
+db.users.getIndexes()
+db.users.dropIndex("name_1")
